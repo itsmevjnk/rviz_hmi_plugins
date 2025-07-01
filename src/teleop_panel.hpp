@@ -10,6 +10,7 @@
 #include "rviz_common/panel.hpp"
 
 #include <QPushButton>
+#include <QDoubleSpinBox>
 
 #endif
 
@@ -28,6 +29,9 @@ namespace rviz_hmi_plugins {
     
     protected:
         QPushButton* active_button_ = nullptr;
+
+        QDoubleSpinBox* linear_spinbox_;
+        QDoubleSpinBox* angular_spinbox_;
 
         enum {
             STOP,

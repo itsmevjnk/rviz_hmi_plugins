@@ -68,26 +68,26 @@ namespace rviz_hmi_plugins {
         QGridLayout* velocity_grid = new QGridLayout;
 
         QLabel* linear_label = new QLabel("Linear velocity (m/s):");
-        QDoubleSpinBox* linear_spinbox = new QDoubleSpinBox;
-        linear_spinbox->setRange(-5.0, 5.0);
-        linear_spinbox->setSingleStep(0.1);
-        linear_spinbox->setValue(0.5);        
-        connect(linear_spinbox, QOverload<double>::of(&QDoubleSpinBox::valueChanged),
+        QDoubleSpinBox* linear_spinbox_ = new QDoubleSpinBox;
+        linear_spinbox_->setRange(0.0, 5.0);
+        linear_spinbox_->setSingleStep(0.1);
+        linear_spinbox_->setValue(0.5);        
+        connect(linear_spinbox_, QOverload<double>::of(&QDoubleSpinBox::valueChanged),
             this, [this](double value) { linear_velocity_ = value; });
         velocity_grid->addWidget(linear_label, 0, 0);
-        velocity_grid->addWidget(linear_spinbox, 0, 1);
+        velocity_grid->addWidget(linear_spinbox_, 0, 1);
 
         QLabel* angular_label = new QLabel("Angular velocity (rad/s):");
-        QDoubleSpinBox* angular_spinbox = new QDoubleSpinBox;
-        angular_spinbox->setRange(-31.4, 31.4);
-        angular_spinbox->setSingleStep(0.1);
-        angular_spinbox->setValue(1.0);
-        connect(angular_spinbox, QOverload<double>::of(&QDoubleSpinBox::valueChanged),
+        angular_spinbox_ = new QDoubleSpinBox;
+        angular_spinbox_->setRange(0.0, 31.4);
+        angular_spinbox_->setSingleStep(0.1);
+        angular_spinbox_->setValue(1.0);
+        connect(angular_spinbox_, QOverload<double>::of(&QDoubleSpinBox::valueChanged),
             this, [this](double value) { angular_velocity_ = value; });
         velocity_grid->addWidget(angular_label, 1, 0);
-        velocity_grid->addWidget(angular_spinbox, 1, 1);
-        linear_velocity_ = linear_spinbox->value();
-        angular_velocity_ = angular_spinbox->value();
+        velocity_grid->addWidget(angular_spinbox_, 1, 1);
+        linear_velocity_ = linear_spinbox_->value();
+        angular_velocity_ = angular_spinbox_->value();
         
         QVBoxLayout* layout = new QVBoxLayout;
         layout->addLayout(button_grid);
@@ -104,10 +104,21 @@ namespace rviz_hmi_plugins {
 
     void TeleopPanel::save(rviz_common::Config config) const {
         rviz_common::Panel::save(config);
+config.mapSetValue("linear_vel", linear_velocity_);
+        config.mapSetValue("angular_vel", angular_velocity_);
     }
 
     void TeleopPanel::load(const rviz_common::Config& config) {
         rviz_common::Panel::load(config);
+float val;
+        if (config.mapGetFloat("linear_vel", &val)) {
+            linear_velocity_ = val;
+            linear_spinbox_->setValue(val);
+        }
+        if (config.mapGetFloat("angular_vel", &val)) {
+            angular_velocity_ = val;
+            angular_spinbox_->setValue(val);
+        }
     }
 
     void TeleopPanel::sendVelocity() {
