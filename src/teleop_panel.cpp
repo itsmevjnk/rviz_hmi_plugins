@@ -79,7 +79,7 @@ namespace rviz_hmi_plugins {
 
         QLabel* angular_label = new QLabel("Angular velocity (rad/s):");
         QDoubleSpinBox* angular_spinbox = new QDoubleSpinBox;
-        angular_spinbox->setRange(-5.0, 5.0);
+        angular_spinbox->setRange(-31.4, 31.4);
         angular_spinbox->setSingleStep(0.1);
         angular_spinbox->setValue(1.0);
         connect(angular_spinbox, QOverload<double>::of(&QDoubleSpinBox::valueChanged),
