@@ -12,7 +12,7 @@ find_package(rviz_common REQUIRED)
 find_package(rviz_rendering REQUIRED)
 find_package(geometry_msgs REQUIRED)
 find_package(pluginlib REQUIRED)
-find_package(Qt5 REQUIRED COMPONENTS Widgets)
+find_package(Qt5 REQUIRED COMPONENTS Widgets Gamepad) # requires libqt5gamepad5-dev on Ubuntu (not available via rosdep!)
 
 set(CMAKE_AUTOMOC ON)
 
@@ -21,6 +21,11 @@ set(SRC_FILES
 )
 
 add_library(${PROJECT_NAME} SHARED ${SRC_FILES})
+target_link_libraries(${PROJECT_NAME}
+  Qt5::Core
+  Qt5::Widgets
+  Qt5::Gamepad
+)
 ament_target_dependencies(${PROJECT_NAME}
   "rclcpp"
   "rviz_common"
@@ -28,7 +33,7 @@ ament_target_dependencies(${PROJECT_NAME}
   "geometry_msgs"
 )
 target_include_directories(${PROJECT_NAME} PUBLIC
-  ${Qt5Widgets_INCLUDE_DIRS}
+  ${Qt5Widgets_INCLUDE_DIRS} ${Qt5Gamepad_INCLUDE_DIRS}
 )
 
 pluginlib_export_plugin_description_file(rviz_common plugin.xml)
