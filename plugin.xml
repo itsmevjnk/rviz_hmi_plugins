@@ -6,4 +6,12 @@
       A panel widget allowing simple diff-drive style robot base control.
     </description>
   </class>
+
+  <class name="rviz_hmi_plugins/Status"
+         type="rviz_hmi_plugins::StatusPanel"
+         base_class_type="rviz_common::Panel">
+    <description>
+      Battery and radiation level status from robot.
+    </description>
+  </class>
 </library>

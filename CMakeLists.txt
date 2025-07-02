@@ -10,6 +10,7 @@ find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(rviz_common REQUIRED)
 find_package(rviz_rendering REQUIRED)
+find_package(std_msgs REQUIRED)
 find_package(geometry_msgs REQUIRED)
 find_package(pluginlib REQUIRED)
 find_package(Qt5 REQUIRED COMPONENTS Widgets Gamepad) # requires libqt5gamepad5-dev on Ubuntu (not available via rosdep!)
@@ -18,6 +19,7 @@ set(CMAKE_AUTOMOC ON)
 
 set(SRC_FILES
   src/teleop_panel.cpp
+  src/status_panel.cpp
 )
 
 add_library(${PROJECT_NAME} SHARED ${SRC_FILES})
@@ -31,6 +33,7 @@ ament_target_dependencies(${PROJECT_NAME}
   "rviz_common"
   "rviz_rendering"
   "geometry_msgs"
+  "std_msgs"
 )
 target_include_directories(${PROJECT_NAME} PUBLIC
   ${Qt5Widgets_INCLUDE_DIRS} ${Qt5Gamepad_INCLUDE_DIRS}
@@ -43,6 +46,7 @@ ament_export_dependencies(
   rviz_common
   rviz_rendering
   geometry_msgs
+  std_msgs
 )
 
 if(BUILD_TESTING)
